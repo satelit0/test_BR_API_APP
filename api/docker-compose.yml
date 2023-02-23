@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 services: 
   br_test_api:
     container_name: br_test_api
@@ -9,18 +9,18 @@ services:
     links:
       - br_test_db
     restart: always
+    depends_on: 
+      - br_test_db
 
   br_test_db:
     image: mysql
+    restart: always
     container_name: br_test_db
     command: --default-authentication-plugin=caching_sha2_password
-    # env_file: .env
-      
     ports:  
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=br_test_password
-
-    # volumes:
-    #   - "./script:/docker-entrypoint-initdb.d"
+    volumes:
+      - ./script/francisco_valdez_prueba.sql:/docker-entrypoint-initdb.d/francisco_valdez_prueba.sql
 

@@ -1,17 +1,18 @@
-FROM node:16
+FROM --platform=$BUILDPLATFORM node:16 as builder
 
-RUN mkdir -p /usr/app
+RUN mkdir /app
+WORKDIR /app
 
-WORKDIR /usr/app
+RUN npm install -g @angular/cli@15.1.6
 
-COPY package.json /usr/app
+COPY package.json package-lock.json ./
+RUN npm ci
 
-RUN npm install
+COPY . .
+CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-COPY . /usr/app
+FROM builder as dev-envs
 
-RUN npm run build --prod
+COPY --from=gloursdocker/docker / /
 
-EXPOSE 4200
-
-CMD [ "npm", "run", "start"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]

@@ -1,5 +1,5 @@
-
 create database if not exists testbr_db;
+ drop table if exists testbr_db.candidatos;
 
 create table if not exists testbr_db.candidatos (
   id int not null auto_increment,
@@ -20,7 +20,7 @@ create table if not exists testbr_db.candidatos (
  insert into testbr_db.candidatos (nombres, apellidos, cedula, fecha_nacimiento, trabajo_actual, expectativa_salarial, createdAt, updatedAt, deletedAt) 
  values ('francisco', 'valdez ferreira', '11800083112', '1977-07-13', 'freelance', 100000, now(), now(), null), 
  	      ('juan', 'alcantara', '11800000003', '1980-01-11', 'gerente de ti', 100001, now(), now(), null),
+ 	      ('marino', 'miranda', '11800000013', '1970-01-14', 'soporte tecnico', 400000, now(), now(), null),
+ 	      ('marcos juan', 'santa rosa', '11800000032', '1978-08-16', 'soporte a ventas', 440000, now(), now(), null),
+ 	      ('pedro julio', 'jamillo cornelio', '11800000034', '1978-08-16', 'soporte a ventas', 440000, now(), now(), null),
         ('pedro', 'martinez', '11800000004', '1981-02-12', 'gerente de desarrollo', 100002, now(), now(), null);
-
---  select * from testbr_db.candidatos;
-
