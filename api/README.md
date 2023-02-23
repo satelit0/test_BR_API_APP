@@ -44,7 +44,15 @@ $ docker exec -it br_test_db bash
 #Una vez dentro login a mysql. Nota: password: "br_test_password"
 $ mysql -u root -p
 $ source francisco_valdez_prueba.sql
+
 ```
+## Documentación API
+```
+- swagger
+# [host]:3000/api | http://localhost:3000/api
+
+```
+
 
 ## Test
 
