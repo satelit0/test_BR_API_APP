@@ -68,3 +68,10 @@ Una vez compilada la aplicación tomar la carpeta 'Dist' y deplegar con servidor
 4. Pulse el botón "Aplicar Cambio"
 
 4. Los cambios se reflejaran en la tabla.
+
+
+#### Enlaces de prueba 
+
+[Demostración APP](http://br-test-app.s3-website-us-east-1.amazonaws.com/) 
+
+[Documentación API: OpenAPI](https://br-test-api-5deyn.ondigitalocean.app/api)
