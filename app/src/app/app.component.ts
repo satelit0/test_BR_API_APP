@@ -2,11 +2,22 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { ICandidate } from './candidates/candidates.interface';
 import { CandidatesService } from './services/candidates.service';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Block, Notify, Confirm } from 'notiflix';
 
+export interface ICandidate {
+  id?: number | null;
+  cedula?: string;
+  nombres?: string;
+  apellidos?: string;
+  fecha_nacimiento?: string;
+  trabajo_actual?: string;
+  expectativa_salarial?: number | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+}
 
 @Component({
   selector: 'app-root',
@@ -27,24 +38,27 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   data$!: Observable<ICandidate[]>;
   candidates: ICandidate[] = [];
   candidate!: ICandidate;
-
+  minDateBirthday: Date;
   modeEdit = false;
-
+  
   candidateForm = this.fb.group({
     id: [NaN, []],
     cedula: ['', [Validators.required, Validators.minLength(11)]],
     nombres: ['', [Validators.required]],
     apellidos: ['', [Validators.required]],
-    fecha_nacimiento: ['', [Validators.required]],
+    fecha_nacimiento: ['', [Validators.required,]],
     expectativa_salarial: [NaN],
     trabajo_actual: [''],
   });
+  
+  
 
   constructor(
     private candidatesService: CandidatesService,
     private fb: FormBuilder,
   ) {
-
+     const year = new Date().getFullYear();
+    this.minDateBirthday = new Date(year - 18, 0, 1);
   }
   ngOnDestroy(): void {
     this.unsubscribeAll.next(true);
@@ -58,12 +72,23 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
     this.loadCandidates();
   }
 
-/**
- * 
- */
+  isOlder() {
+    // this.selectYear= new Date(this.candidateForm.controls.fecha_nacimiento.value as string).getFullYear();
+    // console.log('select', this.dateSelect.getFullYear(), 'birthday', new Date().getFullYear(),'es mayor', 
+    // ( new Date().getFullYear() - this.dateSelect.getFullYear()) >= 18);
+   const currentYear = new Date().getFullYear();
+   const selectYear = new Date(this.candidateForm.controls.fecha_nacimiento.value as string).getFullYear();
+
+   return (currentYear - selectYear) < 18;
+  }
+
+  /**
+   * 
+   */
   ngAfterViewInit(): void {
     this.candidateDataSource.sort = this.candidatesTableMatSort;
   }
+
 
   loadCandidates() {
     // Loading.standard('Cargando, espere...');
@@ -119,7 +144,7 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   deleteCadidate(id: number) {
-    Confirm.show('Eliminar Candidato', 'Esta seguro de querer eliminar el candidato ?', 'Sí', 'No',()=>{ 
+    Confirm.show('Eliminar Candidato', 'Esta seguro de querer eliminar el candidato ?', 'Sí', 'No', () => {
 
       this.candidatesService.deleteCandidate(id, false).subscribe({
         next: (resp => {

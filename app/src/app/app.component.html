@@ -47,15 +47,16 @@
             <mat-form-field appearance="fill">
               <mat-label>Seleccione una fecha</mat-label>
               <mat-icon matSuffix>cake</mat-icon>
-              <input matInput [matDatepicker]="birthday" formControlName="fecha_nacimiento">
+              <input matInput [matDatepicker]="birthday" formControlName="fecha_nacimiento" [max]="minDateBirthday" >
               <mat-datepicker-toggle matPrefix matIconSuffix [for]="birthday"></mat-datepicker-toggle>
               <mat-datepicker #birthday></mat-datepicker>
               <mat-hint>Ej: Dia/Mes/Año (13/7/1977)</mat-hint>
-              <mat-error>Campo requerido</mat-error>
+              <mat-error *ngIf="isOlder()">Candidato no es mayor de edad</mat-error>
+              <mat-error *ngIf="!isOlder()">Campo requerido</mat-error>
             </mat-form-field>
             
             <mat-form-field appearance="fill">
-              <mat-label>Expectativa Salarial</mat-label>
+              <mat-label>Expectativa Salarial</mat-label> 
               <mat-icon matSuffix>paid</mat-icon>
               <input matInput formControlName="expectativa_salarial" prefix="RD$ " mask="separator.2"
               thousandSeparator=",">
