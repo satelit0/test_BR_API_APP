@@ -5,7 +5,6 @@ import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 import { Candidate } from './entities/candidate.entity';
 import { ER_DUP_ENTRY } from '../utils/handledErrorDatabase';
-import { ICandidate } from './candidates.interface';
 import { CandidateType } from './candidates.type';
 
 @Injectable()
